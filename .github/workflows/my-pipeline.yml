@@ -11,7 +11,7 @@ jobs:
               run: python --version
 
             - name: Setup python
-              uses: actions/setup-python@vv5.1.1
+              uses: actions/setup-python@v5.1.1
               with:
                 python-version: 3.11
             
