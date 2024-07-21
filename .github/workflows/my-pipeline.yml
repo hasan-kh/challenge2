@@ -1,0 +1,41 @@
+name: My pipe line
+
+on: [push]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Check if python is installed
+              run: python --version
+
+            - name: Setup python
+              uses: actions/setup-python@vv5.1.1
+              with:
+                python-version: 3.11
+            
+            - uses: actions/checkout@v4
+        
+            - name: Run python script
+              run: python hello.py
+        
+            - name: unit test
+              run: python -m unittest --quiet --failfast
+
+    build:
+        needs: [test]
+        runs-on: ubuntu-latest
+        steps:
+
+            - uses: actions/checkout@v4
+
+            - name: archive source 
+              run: tar cfJ archive.tar.xz *
+
+            - name: Upload a Build Artifact
+              uses: actions/upload-artifact@v4.3.4
+              with:
+                name: archive.tar.xz
+                path: ./archive.tar.xz
+    
